@@ -1,10 +1,11 @@
 import UserModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import fs from "fs";
 
 export const register = async (req, res, next) => {
     try{
-        const { username, email, password, picture } = req.body;
+        const { username, email, password } = req.body;
 
         if(!username) return next("Name is required");
         if(username.includes(" ")) return next("Invalid Username");
@@ -12,7 +13,6 @@ export const register = async (req, res, next) => {
         if(!password) return next("Password is required");
         if(password.includes(" ")) return next("Invalid Password. There should not be white spaces");
         if(password.length < 6) return next("Password must be greater than 6 characters.");
-        if(!picture) return next("Profile Picture is required");
 
         // Checking existing email
         const emailExist = await UserModel.findOne({email});
@@ -26,11 +26,19 @@ export const register = async (req, res, next) => {
         const hashPass = await bcrypt.hash(password, 10);
         if(!hashPass) return next("Unable to store password");
 
+        // Storing the image
+        const {originalname, path} = req.file
+        const parts = originalname.split('.')
+        const ext = parts[parts.length - 1];
+        const newPath = path+'.'+ext
+        fs.renameSync(path, newPath);
+
         // Creating the user
         const user = UserModel.create({
             username,
             email,
-            password: hashPass
+            password: hashPass,
+            picture: newPath
         })
 
         res.status(201).send({

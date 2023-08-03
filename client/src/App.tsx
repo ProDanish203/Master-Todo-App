@@ -1,18 +1,17 @@
 import './App.css';
-import { FilterTodos } from './components/FilterTodos'
-import { Heading } from './components/Heading'
-import { Todos } from './components/Todos'
-import { AddTodo } from "./components/AddTodo";
+import { Router } from "./config/Router";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { Header } from "./components";
 
 function App() {
   return (
     <>
     <div className='bg-background min-h-[100vh] px-2'>
-    <div className='w-full max-w-[1000px] mx-auto min-h-[60vh] flex flex-col justify-center px-2'>
-      <Heading/>
-      <FilterTodos/>
-      <AddTodo/>
-      <Todos/>
+    <Header/>
+    <ToastContainer/>
+    <div className='w-full max-w-[1000px] mx-auto min-h-[80vh] flex flex-col justify-center px-2'>
+      <Router/>
     </div>
     </div>
     </>

@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { setLoading, setUser } from "../store/reducers/Auth";
 import { useEffect } from 'react';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 
 export const PrivateRoute = ({children}) => {
 
@@ -25,6 +24,7 @@ export const PrivateRoute = ({children}) => {
             dispatch(setLoading());
         }catch(error){
             console.log(error);
+            localStorage.removeItem('token');
             dispatch(setLoading());
         }
     }

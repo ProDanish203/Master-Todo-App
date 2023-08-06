@@ -11,6 +11,7 @@ import connDb from "./config/db.js";
 // Routes Imports
 import authRoute from "./routes/authRoute.js";
 import userRoute from "./routes/userRouter.js";
+import todoRoute from "./routes/todoRoute.js";
 // Controllers Imports
 import { register } from "./controllers/authController.js";
 // Middleware Imports
@@ -56,6 +57,7 @@ const upload = multer({dest: "uploads"});
 app.post("/api/v1/auth/register", upload.single("picture"), register);
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/user", userRoute);
+app.use("/api/v2/todo", todoRoute);
 
 
 // Validation middleware
